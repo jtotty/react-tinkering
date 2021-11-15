@@ -3,6 +3,9 @@ import '../reset.css';
 import '../App.css';
 
 export default function App() {
+  /**
+   * Initial todos state.
+   */
   const [todos, setTodos] = useState([
     {
       id: 1,
@@ -21,13 +24,59 @@ export default function App() {
     }
   ]);
 
+  // Todo text field state and todo ID state
+  const [todoInput, setTodoInput] = useState('');
+  const [todoID, setTodoID] = useState(() => {
+    return todos.length ? todos[todos.length - 1].id + 1 : 1;
+  });
+
+  /**
+   * Add a todo to the list.
+   * @param {*} event 
+   * @returns 
+   */
+  function addTodo(event) {
+    event.preventDefault();
+
+    // Exit if todo text field is empty
+    if (todoInput.trim().length === 0) return;
+
+    const todo = {
+      id: todoID,
+      title: todoInput,
+      isCompleted: false
+    };
+
+    setTodos([...todos, todo]);
+    setTodoInput('');
+    setTodoID(prevID => prevID + 1);
+  }
+
+  /**
+   * Set todo input from the form input text field.
+   * @param {*} event 
+   */
+  function handleInput(event) {
+    setTodoInput(event.target.value);
+  }
+
+  /**
+   * Remove todo from list.
+   * @param {number} id - The id of the todo to remove.
+   */
+  function removeTodo(id) {
+    setTodos([...todos].filter(todo => todo.id !== id));
+  }
+
   return (
     <div className="todo-app-container">
       <div className="todo-app">
         <h2>Todo App</h2>
-        <form action="#">
+        <form action="#" onSubmit={addTodo}>
           <input
             type="text"
+            value={todoInput}
+            onChange={handleInput}
             className="todo-input"
             placeholder="What do you need to do?"
           />
@@ -35,13 +84,13 @@ export default function App() {
 
         <ul className="todo-list">
           {todos.map((todo, index) => (
-            <li className="todo-item-container">
+            <li key={todo.id} className="todo-item-container">
               <div className="todo-item">
                 <input type="checkbox" />
                 <span className="todo-item-label">{todo.title}</span>
                 {/* <input type="text" className="todo-item-input" value="Finish React Series" /> */}
               </div>
-              <button className="x-button">
+              <button className="x-button" onClick={() => removeTodo(todo.id)}>
                 <svg
                   className="x-button-icon"
                   fill="none"

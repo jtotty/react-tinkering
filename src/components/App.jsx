@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import NoTodos from './NoTodos';
+import TodoForm from './TodoForm';
+import TodosList from './TodosList';
 import '../reset.css';
 import '../App.css';
 
-export default function App() {
+function App() {
   /**
    * Initial todos state.
    */
@@ -28,37 +31,23 @@ export default function App() {
   ]);
 
   // Todo text field state and todo ID state
-  const [todoInput, setTodoInput] = useState('');
   const [todoID, setTodoID] = useState(() => {
     return todos.length ? todos[todos.length - 1].id + 1 : 1;
   });
 
   /**
    * Add a todo to the list.
-   * @param {*} event 
+   * @param {string} todo Title of the todo. 
    * @returns 
    */
-  function addTodo(event) {
-    event.preventDefault();
-    if (todoInput.trim().length === 0) return;
-
-    const todo = {
+  function addTodo(todo) {
+    setTodos([...todos, {
       id: todoID,
-      title: todoInput,
+      title: todo,
       isCompleted: false
-    };
+    }]);
 
-    setTodos([...todos, todo]);
-    setTodoInput('');
     setTodoID(prevID => prevID + 1);
-  }
-
-  /**
-   * Set todo input from the form input text field.
-   * @param {*} event 
-   */
-  function handleInput(event) {
-    setTodoInput(event.target.value);
   }
 
   /**
@@ -120,63 +109,20 @@ export default function App() {
     <div className="todo-app-container">
       <div className="todo-app">
         <h2>Todo App</h2>
-        <form action="#" onSubmit={addTodo}>
-          <input
-            type="text"
-            value={todoInput}
-            onChange={handleInput}
-            className="todo-input"
-            placeholder="What do you need to do?"
-          />
-        </form>
+        <TodoForm addTodo={addTodo} />
 
-        <ul className="todo-list">
-          {todos.map((todo, index) => (
-            <li key={todo.id} className="todo-item-container">
-              <div className="todo-item">
-                <input type="checkbox" onChange={() => completeTodo(todo.id)} checked={todo.isCompleted} />
-                { !todo.isEditing ? (
-                  <span
-                    onDoubleClick={() => isEditing(todo.id)}
-                    className={`todo-item-label ${todo.isCompleted ? 'line-through' : ''}`}
-                  >
-                    {todo.title}
-                  </span>
-                ) : ( 
-                  <input
-                    type="text"
-                    onBlur={event => updateTodo(event, todo.id)}
-                    onKeyDown={event => {
-                      if (event.key === 'Enter') {
-                        updateTodo(event, todo.id);
-                      } else if (event.key === 'Escape') {
-                        isEditing(todo.id);
-                      }
-                    }}
-                    className="todo-item-input"
-                    defaultValue={todo.title}
-                    autoFocus
-                  />
-                )}
-              </div>
-              <button className="x-button" onClick={() => removeTodo(todo.id)}>
-                <svg
-                  className="x-button-icon"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </li>
-            ))} 
-        </ul>
+        { todos.length > 0 ? (
+          <TodosList 
+            todos={todos}
+            completeTodo={completeTodo}
+            isEditing={isEditing}
+            updateTodo={updateTodo}
+            removeTodo={removeTodo}
+          />
+          ) : (
+          <NoTodos /> 
+          )
+        }
 
         <div className="check-all-container">
           <div>
@@ -202,3 +148,5 @@ export default function App() {
     </div>
   );
 }
+
+export default App;

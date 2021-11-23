@@ -2,8 +2,8 @@ import { useState } from 'react';
 import NoTodos from './NoTodos';
 import TodoForm from './TodoForm';
 import TodosList from './TodosList';
-import '../reset.css';
-import '../App.css';
+import '../css/reset.css';
+import '../css/App.css';
 
 function App() {
   /**

@@ -1,9 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 
-function TodoItemsRemaining() {
-	return (
-		<span>3 items remaining</span>
-	)
+TodoItemsRemaining.propTypes = {
+	remaining: PropTypes.func.isRequired
 };
+
+function TodoItemsRemaining({ remaining }) {
+	return (
+		<span>{remaining()} items remaining</span>
+	)
+}
 
 export default TodoItemsRemaining;

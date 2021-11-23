@@ -2,7 +2,6 @@ import { useState } from 'react';
 import NoTodos from './NoTodos';
 import TodoForm from './TodoForm';
 import TodosList from './TodosList';
-import TodoItemsRemaining from './TodoItemsRemaining';
 import '../css/reset.css';
 import '../css/App.css';
 
@@ -75,7 +74,7 @@ function App() {
 
   /**
    * Toggle edit a todo state.
-   * @param {number} id - The id of the todo to edit. 
+   * @param {number} id - The id of the todo to edit.
    */
   function isEditing(id) {
     setTodos([...todos].map(todo => {
@@ -104,6 +103,50 @@ function App() {
   }
 
   /**
+   * The number of todos remaining.
+   * @returns {number}
+   */
+  function remaining() {
+    return todos.filter(todo => !todo.isCompleted).length;
+  }
+
+  /**
+   * Clear completed todos.
+   */
+  function clearCompleted() {
+    setTodos([...todos].filter(todo => !todo.isCompleted));
+  }
+
+  /**
+   * Complete all todos.
+   */
+  function completeAll() {
+    setTodos(todos.map(todo => {
+      todo.isCompleted = true;
+
+      return todo;
+    }));
+  }
+
+  /**
+   * Filter todos by type.
+   * @param {string} type - The type of todos to filter by.
+   * @returns {array} - The filtered todos.
+   */
+  function todosFiltered(filter) {
+    switch (filter) {
+      case 'active':
+        return todos.filter(todo => !todo.isCompleted);
+
+      case 'completed':
+        return todos.filter(todo => todo.isCompleted);
+
+      default:
+        return todos;
+    }
+  }
+
+  /**
    * Template
    */
   return (
@@ -115,36 +158,18 @@ function App() {
         { todos.length > 0 ? (
           <TodosList 
             todos={todos}
+            todosFiltered={todosFiltered}
             completeTodo={completeTodo}
             isEditing={isEditing}
             updateTodo={updateTodo}
             removeTodo={removeTodo}
+            remaining={remaining}
+            clearCompleted={clearCompleted}
+            completeAll={completeAll}
           />
-          ) : (
-          <NoTodos /> 
-          )
-        }
-
-        <div className="check-all-container">
-          <div>
-            <div className="button">Check All</div>
-          </div>
-
-          <TodoItemsRemaining />
-        </div>
-
-        <div className="other-buttons-container">
-          <div>
-            <button className="button filter-button filter-button-active">
-              All
-            </button>
-            <button className="button filter-button">Active</button>
-            <button className="button filter-button">Completed</button>
-          </div>
-          <div>
-            <button className="button">Clear completed</button>
-          </div>
-        </div>
+        ) : (
+          <NoTodos />
+        )}
       </div>
     </div>
   );

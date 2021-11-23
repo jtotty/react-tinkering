@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+TodoForm.propTypes = {
+  addTodo: PropTypes.func.isRequired
+};
+
 function TodoForm({ addTodo }) {
   const [todoInput, setTodoInput] = useState('');
 
@@ -36,9 +40,5 @@ function TodoForm({ addTodo }) {
     </form>
 	)
 }
-
-TodoForm.propTypes = {
-  addTodo: PropTypes.func.isRequired
-};
 
 export default TodoForm;

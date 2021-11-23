@@ -1,6 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+TodosList.propTypes = {
+  todos: PropTypes.array.isRequired,
+  completeTodo: PropTypes.func.isRequired,
+  isEditing: PropTypes.func.isRequired,
+  updateTodo: PropTypes.func.isRequired,
+  removeTodo: PropTypes.func.isRequired
+}
+
 function TodosList({ todos, completeTodo, isEditing, updateTodo, removeTodo }) {
 	return (
     <ul className="todo-list">
@@ -51,14 +59,6 @@ function TodosList({ todos, completeTodo, isEditing, updateTodo, removeTodo }) {
         ))} 
     </ul>
 	)
-}
-
-TodosList.propTypes = {
-  todos: PropTypes.array.isRequired,
-  completeTodo: PropTypes.func.isRequired,
-  isEditing: PropTypes.func.isRequired,
-  updateTodo: PropTypes.func.isRequired,
-  removeTodo: PropTypes.func.isRequired
 }
 
 export default TodosList;

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import NoTodos from './NoTodos';
 import TodoForm from './TodoForm';
 import TodosList from './TodosList';
+import TodoItemsRemaining from './TodoItemsRemaining';
 import '../css/reset.css';
 import '../css/App.css';
 
@@ -129,7 +130,7 @@ function App() {
             <div className="button">Check All</div>
           </div>
 
-          <span>3 items remaining</span>
+          <TodoItemsRemaining />
         </div>
 
         <div className="other-buttons-container">

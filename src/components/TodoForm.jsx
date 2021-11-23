@@ -12,12 +12,15 @@ function TodoForm({ addTodo }) {
     setTodoInput(event.target.value);
   }
 
+  /**
+   * Add todo to the list.
+   * @param {*} event 
+   */
   function handleSubmit(event) {
     event.preventDefault();
     if (todoInput.trim().length === 0) return;
 
     addTodo(todoInput);
-
     setTodoInput('');
   }
 

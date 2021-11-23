@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function TodosList({
-  todos,completeTodo, isEditing, updateTodo, removeTodo
-}) {
+function TodosList({todos, completeTodo, isEditing, updateTodo, removeTodo}) {
 	return (
     <ul className="todo-list">
       {todos.map((todo, index) => (

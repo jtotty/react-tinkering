@@ -7,12 +7,12 @@ import TodoFilters from './TodoFilters';
 
 TodosList.propTypes = {
   todos: PropTypes.array.isRequired,
+  remaining: PropTypes.number.isRequired,
 	todosFiltered: PropTypes.func.isRequired,
   completeTodo: PropTypes.func.isRequired,
   isEditing: PropTypes.func.isRequired,
   updateTodo: PropTypes.func.isRequired,
   removeTodo: PropTypes.func.isRequired,
-  remaining: PropTypes.func.isRequired,
   clearCompleted: PropTypes.func.isRequired,
   completeAll: PropTypes.func.isRequired
 };

@@ -1,39 +1,18 @@
-import { useRef, useState, useEffect, useMemo } from 'react';
+import { useRef, useEffect, useMemo } from 'react';
 import NoTodos from './NoTodos';
 import TodoForm from './TodoForm';
 import TodosList from './TodosList';
+import useLocalStorage from '../hooks/useLocalStorage';
 import '../css/reset.css';
 import '../css/App.css';
 
 function App() {
-  const [name, setName] = useState('');
+  const [name, setName] = useLocalStorage('name', '');
+  const [todos, setTodos] = useLocalStorage('todos', []);
+  const [todoID, setTodoID] = useLocalStorage('todoID', 1);
+
+  // HTML Element Ref
   const nameInputEl = useRef(null);
-
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      title: 'Squat 150kg',
-      isCompleted: true,
-      isEditing: false
-    },
-    {
-      id: 2,
-      title: 'Bench Press 120kg',
-      isCompleted: false,
-      isEditing: false
-    },
-    {
-      id: 3,
-      title: 'Deadlift 200kg',
-      isCompleted: false,
-      isEditing: false
-    }
-  ]);
-
-  // Todo text field state and todo ID state
-  const [todoID, setTodoID] = useState(() => {
-    return todos.length ? todos[todos.length - 1].id + 1 : 1;
-  });
 
   /**
    * Add a todo to the list.
@@ -149,6 +128,14 @@ function App() {
   }
 
   /**
+   * Handle the name input change.
+   * @param {*} event 
+   */
+  function handleNameInput(event) {
+    setName(event.target.value);
+  }
+
+  /**
    * When component mounts, focus the name input.
    */
   useEffect(() => {
@@ -172,7 +159,7 @@ function App() {
               className="todo-input"
               placeholder="What is your name?"
               value={name}
-              onChange={event => setName(event.target.value)}
+              onChange={handleNameInput}
             />
           </form>
           {name && <p className="name-label">Hello, {name}</p>}

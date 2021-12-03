@@ -1,12 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+import { TodosContext } from '../context/TodosContext';
 
-TodoFilters.propTypes = {
-	filter: PropTypes.string.isRequired,
-	setFilter: PropTypes.func.isRequired
-};
+function TodoFilters() {
+  const { filter, setFilter } = useContext(TodosContext);
 
-function TodoFilters({ filter, setFilter }) {
 	return (
 		<div>
 			<button

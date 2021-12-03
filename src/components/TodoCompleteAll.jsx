@@ -1,11 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+import { TodosContext } from '../context/TodosContext';
 
-TodoCompleteAll.propTypes = {
-	completeAll: PropTypes.func.isRequired
-};
+function TodoCompleteAll() {
+  const { todos, setTodos } = useContext(TodosContext);
 
-function TodoCompleteAll({ completeAll }) {
+  function completeAll() {
+    setTodos(todos.map(todo => {
+      todo.isCompleted = true;
+
+      return todo;
+    }));
+  }
+
 	return (
 		<div>
 			<div className="button" onClick={completeAll}>
